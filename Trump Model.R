@@ -1,10 +1,9 @@
-install.packages(CasualImpact)
-install.packages("pollstR")
-install.packages("sqldf")
-library(sqldf)
-
-library(CasualImpact)
-
+install.packages("devtools")
+library(devtools)
+#install.packages("stringi")
+#library(stringi)
+devtools::install_github("google/CausalImpact")
+library("CausalImpact")
 
 ###Trump
 Trump<-(data$Trump)
@@ -91,23 +90,6 @@ plot(Rubioimpact)
 summary(Rubioimpact)
 summary(Rubioimpact, "report")
 
-#Perry
-Perry<-(data$Perry)
-Perrytimeseries<-ts(Perry)
-Perry
-plot(Perrytimeseries, col=("red"), main="Perry Poll Results", ylab="Poll Results", xlab="Polls conducted Nov 2015-Sept 2016")
-points(Perrytimeseries, col="blue", pch=21)
-
-pre.period<-c(1,67)
-post.period<-c(68,92)
-Perryimpact<-CausalImpact(Perry, pre.period, post.period)
-plot(Perryimpact)
-summary(Perryimpact)
-summary(Perryimpact, "report")
-
-
-
-
 ts.plot(Bushtimeseries, Trumptimeseries, Christietimeseries, Paultimeseries, col=c("blue", "red", "black", "green"), xlab=c("Poll results in chronological order"), ylab="Poll Results")
 legend(x="topleft", legend=c("Bush", "Trump", "Christie", "Paul"), col=c("blue", "red", "black", "green"),
        lty=c(1,1,1,1), lwd=c(2.5,2.5,2.5,2.5), cex=1)
@@ -115,45 +97,37 @@ legend(x="topleft", legend=c("Bush", "Trump", "Christie", "Paul"), col=c("blue",
 
 #######Trump Election Calculator Function#######
 
-trumpregression<-lm(Trump~Bush+Christie+Paul+Walker+Rubio+Perry)
+trumpregression<-lm(Trump~Bush+Christie+Paul+Walker+Rubio)
 summary(trumpregression)
 
 ##Trump election calculator function
 trumpcoeffs<-coefficients(trumpregression)
 trumpcoeffs
 
-Trumpelect<-function(Bu, Ch, Pa, Wa, Ru, Pe){
+Trumpelect<-function(Bu, Ch, Pa, Wa, Ru){
   Buweight<-trumpcoeffs[1]+trumpcoeffs[2]*Bu
   Chweight<-trumpcoeffs[3]*Ch
   Paweight<-trumpcoeffs[4]*Pa
   Waweight<-trumpcoeffs[5]*Wa
   Ruweight<-trumpcoeffs[6]*Ru
-  Peweight<-trumpcoeffs[7]*Pe
-  Trumppredict<-Buweight+Chweight+Paweight+Waweight+Ruweight+Peweight
+  Trumppredict<-Buweight+Chweight+Paweight
   return(Trumppredict)
    
 }
 ###enter poll values for Bush, Christie, Paul,Walker, Rubio####
-Trumpelect(6,1,3,2,6,1)
+Trumpelect(6,1,3,2,6)
 
 
-##visuals from Huff Post
-library(pollstR)
-pollstr_charts()
-trump_favorable <- pollstr_chart('donald-trump-favorable-rating')
-print(trump_favorable)
-(ggplot(trump_favorable[["estimates_by_date"]], aes(x = date, y = value, color = choice))
- + geom_line())
 
-install.packages("rgl")
-install.packages("scatterplot3d")
-library(rgl)
-library(scatterplot3d)
 
-scatterplot3d(base2,pch=19,highlight.3d=TRUE, type="h", main="CFB Model")
-s3d <-scatterplot3d( base2, pch=16, highlight.3d=TRUE,type="h", main="CFB Model")
 
-plot3d(base2, col=rainbow(10), size=3, type="h", xlab="", ylab="", zlab="", main="3d")
+
+
+
+
+
+
+
 
 
 
