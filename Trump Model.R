@@ -104,6 +104,7 @@ summary(trumpregression)
 trumpcoeffs<-coefficients(trumpregression)
 trumpcoeffs
 
+##Enter poll numbers for Bush, Christie, Paul, Walker, and Rubio
 Trumpelect<-function(Bu, Ch, Pa, Wa, Ru){
   Buweight<-trumpcoeffs[1]+trumpcoeffs[2]*Bu
   Chweight<-trumpcoeffs[3]*Ch
