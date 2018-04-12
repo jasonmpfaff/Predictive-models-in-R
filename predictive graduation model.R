@@ -17,7 +17,7 @@ library(e1071)
 
 ##run the model ensemble first##
 
-#random forest##and it stays there
+#random forest##
 
 rfmodel<-train(as.factor(grad) ~ age+marital+mom+efc+single+ged+year+clock+reenter+sex,data=boosted, method="rf")
 rfmodel
